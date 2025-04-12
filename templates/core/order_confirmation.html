@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation</title>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fc;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 85%;
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #fff;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #2d3e50;
+        font-size: 36px;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        color: #2d3e50;
+        font-size: 24px;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 10px;
+      }
+
+      .order-details,
+      .address {
+        background-color: #fafafa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .order-details p,
+      .address p {
+        font-weight: 500;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      li {
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 16px;
+      }
+
+      li:last-child {
+        border-bottom: none;
+      }
+
+      .total {
+        font-size: 20px;
+        font-weight: bold;
+        color: #e74c3c;
+        margin-top: 25px;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 12px 24px;
+        margin: 20px 0;
+        font-size: 16px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .button:hover {
+        background-color: #2980b9;
+      }
+
+      .back-link {
+        display: inline-block;
+        font-size: 16px;
+        color: #3498db;
+        text-decoration: none;
+        margin-top: 20px;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      .address strong,
+      .order-details strong {
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          width: 90%;
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+
+        .button {
+          font-size: 14px;
+          padding: 10px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Thank you for your order!</h1>
+
+      <div class="address">
+        <h2>Shipping Address</h2>
+        <p><strong>Name:</strong> {{ order.user.username }}</p>
+        <p><strong>Shipping Address:</strong></p>
+        <p>{{ checkout_address.street_address }}</p>
+        <p>{% if checkout_address.apartment_address %}{{ checkout_address.apartment_address }}{% endif %}</p>
+        <p>{{ checkout_address.zipcode }}</p>
+        <p>{{ checkout_address.country.name }}</p>
+      </div>
+
+      <div class="order-details">
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>Order Date:</strong> {{ order.ordered_date }}</p>
+        <p><strong>Payment Status:</strong> Success</p>
+      </div>
+
+      <h2>Items:</h2>
+      <ul>
+        {% for item in order.items.all %}
+          <li>
+            {{ item.product.name }} (Qty: {{ item.quantity }}) - Price: Rs.{{ item.get_total_item_price }}
+          </li>
+        {% endfor %}
+      </ul>
+
+      <p class="total"><strong>Total:</strong> Rs.{{ order.get_total_price }}</p>
+
+      <div>
+        <a href="{% url 'invoice_detail' order.id %}" class="button">View & Print Invoice</a>
+        <a href="{% url 'index' %}" class="back-link">Back to Shop</a>
+      </div>
+    </div>
+  </body>
+</html>

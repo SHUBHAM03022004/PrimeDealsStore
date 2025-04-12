@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+{% load static %} {% load cart_template_tags %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cart Page</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon" />
+    <link
+      href="{% static 'img/apple-touch-icon.png' %}"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %} rel="
+    stylesheet">
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet" />
+    <link
+      href="{% static 'vendor/glightbox/css/glightbox.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'vendor/swiper/swiper-bundle.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS File -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" />
+  </head>
+
+  <body class="portfolio-details-page">
+    <header id="header" class="header d-flex align-items-center fixed-top">
+      <div
+        class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end"
+      >
+        <a
+          href="{% url 'index' %}"
+          class="logo d-flex align-items-center me-auto"
+        >
+          <h1 class="sitename">PrimeDealsStore</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'index' %}" class="active">Home</a></li>
+
+            <li>
+              <a href="#hero" class="active">Welcome {{ user.username }}</a>
+            </li>
+            <li><a href="{% url 'user_logout' %}">Logout</a></li>
+
+            {% if user.is_superuser %}
+            <li><a href="{% url 'add_product' %}">Add Product</a></li>
+            {% endif %} {% else %}
+            <li><a href="{% url 'user_login' %}">Login</a></li>
+            <li><a href="{% url 'user_register' %}">Register</a></li>
+            {% endif %}
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" style="margin-top: 50px">
+      <section
+        class="breadcrumbs light-green-bg"
+        style="background-color: #90ee90"
+      >
+        <!-- Light green -->
+        <div class="container">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2>Order List</h2>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="{% url 'index' %}">Home</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Inner Page
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="inner-page">
+        <div class="container">
+          <table
+            class="table table-bordered table-striped table-hover"
+            style="width: 100%; border: 1px solid #ddd"
+          >
+            <thead
+              class="table-dark"
+              style="background-color: #343a40; color: white"
+            >
+              <tr>
+                <th scope="col" style="padding: 8px">No</th>
+                <th scope="col" style="padding: 8px">Item Name</th>
+                <th scope="col" style="padding: 8px">Price</th>
+                <th scope="col" style="padding: 8px">Quantity</th>
+                <th scope="col" style="padding: 8px">Total Item Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order_item in order.items.all %}
+              <tr>
+                <th scope="row" style="padding: 8px">{{ forloop.counter }}</th>
+                <td style="padding: 8px">{{ order_item.product.name }}</td>
+                <td style="padding: 8px">{{ order_item.product.price }}</td>
+                <td style="padding: 8px">
+                  <a
+                    href="{% url 'add_item' order_item.product.id %}"
+                    style="color: green; text-decoration: none"
+                    >+</a
+                  >
+                  &nbsp; {{ order_item.quantity }} &nbsp;
+                  <a
+                    href="{% url 'remove_item' order_item.product.id %}"
+                    style="color: red; text-decoration: none"
+                    >-</a
+                  >
+                </td>
+                <td style="padding: 8px">
+                  Rs. {{ order_item.get_total_item_price }}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5" class="text-center" style="padding: 8px">
+                  No Items in Cart
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5" class="text-center" style="padding: 8px">
+                  <a
+                    href="{% url 'index' %}"
+                    class="btn btn-primary"
+                    style="
+                      padding: 10px 20px;
+                      background-color: #007bff;
+                      color: white;
+                      text-decoration: none;
+                    "
+                  >
+                    Continue Shopping
+                  </a>
+                </td>
+              </tr>
+              {% endfor %} {% if order.get_total_price %}
+              <tr
+                class="row100 body"
+                style="background-color: #191919; color: white"
+              >
+                <td colspan="4" class="text-end" style="padding: 8px">
+                  Total Price
+                </td>
+                <td style="padding: 8px">Rs. {{ order.get_total_price }}</td>
+              </tr>
+
+              <tr>
+                <td colspan="5" class="text-end" style="padding: 8px">
+                  <a
+                    href="{% url 'checkout_page' %}"
+                    class="btn btn-warning ms-2"
+                    style="
+                      padding: 10px 20px;
+                      background-color: #ffc107;
+                      color: black;
+                      text-decoration: none;
+                    "
+                    >Checkout</a
+                  >
+                  <a
+                    href="{% url 'index' %}"
+                    class="btn btn-primary"
+                    style="
+                      padding: 10px 20px;
+                      background-color: #007bff;
+                      color: white;
+                      text-decoration: none;
+                    "
+                    >Continue Shopping</a
+                  >
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      id="footer"
+      class="footer light-background"
+      style="background-color: #f9f9f9; padding: 40px 0; color: #555"
+    >
+      <div class="container footer-top">
+        <div class="row gy-4">
+          <!-- About Section -->
+          <div class="col-lg-4 col-md-6 footer-about">
+            <a href="{% url 'index' %}" class="logo d-flex align-items-center">
+              <span
+                class="sitename"
+                style="font-size: 2rem; font-weight: 700; color: #28a745"
+                >PrimeDealsStore</span
+              >
+            </a>
+            <p style="font-size: 1rem; color: #555">
+              Your one-stop destination for the best deals online. We bring you
+              top-quality products at unbeatable prices, with hassle-free
+              delivery and exceptional customer service.
+            </p>
+            <div class="social-links d-flex mt-4">
+              <a href="#" style="margin-right: 15px" aria-label="Twitter"
+                ><i
+                  class="bi bi-twitter"
+                  style="font-size: 1.5rem; color: #1da1f2"
+                ></i
+              ></a>
+              <a href="#" style="margin-right: 15px" aria-label="Facebook"
+                ><i
+                  class="bi bi-facebook"
+                  style="font-size: 1.5rem; color: #3b5998"
+                ></i
+              ></a>
+              <a href="#" style="margin-right: 15px" aria-label="Instagram"
+                ><i
+                  class="bi bi-instagram"
+                  style="font-size: 1.5rem; color: #e4405f"
+                ></i
+              ></a>
+              <a href="#" style="margin-right: 15px" aria-label="LinkedIn"
+                ><i
+                  class="bi bi-linkedin"
+                  style="font-size: 1.5rem; color: #0077b5"
+                ></i
+              ></a>
+            </div>
+          </div>
+
+          <!-- Useful Links Section -->
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4 style="font-size: 1.25rem; font-weight: 600; color: #333">
+              Quick Links
+            </h4>
+            <ul style="list-style-type: none; padding-left: 0">
+              <li><a href="#" style="color: #555">Home</a></li>
+              <li><a href="#" style="color: #555">Shop Now</a></li>
+              <li><a href="#" style="color: #555">About Us</a></li>
+              <li><a href="#" style="color: #555">Track Order</a></li>
+              <li><a href="#" style="color: #555">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <!-- Customer Service Section -->
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4 style="font-size: 1.25rem; font-weight: 600; color: #333">
+              Customer Service
+            </h4>
+            <ul style="list-style-type: none; padding-left: 0">
+              <li><a href="#" style="color: #555">Returns & Exchanges</a></li>
+              <li><a href="#" style="color: #555">Shipping & Delivery</a></li>
+              <li><a href="#" style="color: #555">FAQ</a></li>
+              <li><a href="#" style="color: #555">Privacy Policy</a></li>
+              <li><a href="#" style="color: #555">Terms of Service</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Information Section -->
+          <div
+            class="col-lg-3 col-md-6 footer-contact text-center text-md-start"
+          >
+            <h4 style="font-size: 1.25rem; font-weight: 600; color: #333">
+              Contact Us
+            </h4>
+            <p style="font-size: 1rem; color: #555">Jalandhar Cantt.</p>
+            <p style="font-size: 1rem; color: #555">Jalandhar, Punjab 144023</p>
+            <p style="font-size: 1rem; color: #555">India</p>
+            <p class="mt-4">
+              <strong style="color: #28a745">Phone:</strong>
+              <span style="color: #555">+91 123-456-789</span>
+            </p>
+            <p>
+              <strong style="color: #28a745">Email:</strong>
+              <span style="color: #555">support@primedealsstore.com</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Section -->
+      <div
+        class="container copyright text-center mt-4"
+        style="border-top: 1px solid #ddd; padding-top: 20px"
+      >
+        <p style="font-size: 1rem; color: #555">
+          © <span style="color: #28a745">Copyright</span>
+          <strong class="px-1 sitename" style="color: #28a745"
+            >PrimeDealsStore</strong
+          >
+          <span style="color: #555">All Rights Reserved</span>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Include Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Scroll Top -->
+    <a
+      href="#"
+      id="scroll-top"
+      class="scroll-top d-flex align-items-center justify-content-center"
+    >
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/purecounter/purecounter.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'vendor/waypoints/noframework.waypoints.js' %}"></script>
+
+    <!-- Main JS File -->
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

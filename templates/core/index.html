@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cart_template_tags  %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Index - PrimeDealsStore</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+  
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
+
+      <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto">
+        
+        <h1 class="sitename">PrimeDealsStore</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          {% if user.is_authenticated %}
+          <li><a href="#hero" class="active">Home</a></li>
+
+          <li>
+            <a href="{% url 'orderlist' %}" class="nav-link scrollto active">
+              Cart
+              <span class="badge bg-light text-dark">{{ request.user|cart_item_count }}</span>
+            </a>
+          </li>
+          <li><a href="#hero" class="active">Welcome {{ user.username }}</a></li>
+          <li><a href="{% url 'user_logout' %}" >Logout</a></li>
+
+          {% if user.is_superuser %}
+          <li><a href="{% url 'add_product' %}">Add Product</a></li>
+          {% endif %}
+
+          {% else %}
+          <li><a href="{% url 'user_login' %}">Login</a></li>
+          <li><a href="{% url 'user_register' %}" >Register</a></li>
+          {% endif %}
+          
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+      <img src="{% static 'img/hero-bg.jpg' %}" alt="E-commerce Background" data-aos="fade-in" class="">
+    
+      <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h2>Shop the Best Deals Online</h2>
+            <p>Your favorite products, now just a click away. Shop with ease and enjoy exclusive discounts.</p>
+            <a href="#shop" class="btn-get-started">Start Shopping</a>
+          </div>
+        </div>
+      </div>
+    
+    </section><!-- /Hero Section -->
+    
+
+    <!-- Clients Section -->
+    <section id="clients" class="clients section light-background">
+      <div class="container" data-aos="fade-up">
+        <div class="row gy-4">
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-1.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-2.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-3.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-4.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-5.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-6.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+        </div>
+      </div>
+    </section><!-- /Clients Section -->
+
+
+    <section id="about" class="about section" style="padding: 80px 0; background-color: #f9f9f9;">
+
+      <div class="container">
+    
+        <div class="row gy-4">
+    
+          <div class="col-lg-6 position-relative align-self-start order-lg-last order-first" data-aos="fade-up" data-aos-delay="200">
+            <img src="{% static 'img/about.jpg' %}" class="img-fluid" alt="E-commerce Store Image">
+            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn" style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); background-color: #f39c12; padding: 15px; border-radius: 50%; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);"></a>
+          </div>
+    
+          <div class="col-lg-6 content order-last order-lg-first" data-aos="fade-up" data-aos-delay="100">
+            <h3 style="font-size: 2.5rem; color: #333; font-weight: 700;">About Our E-commerce Store</h3>
+            <p style="font-size: 1.125rem; color: #555;">At [Store Name], we offer a seamless shopping experience with an extensive range of products, from trendy fashion to the latest gadgets. Our mission is to deliver quality, convenience, and exceptional customer service to make your shopping journey unforgettable.</p>
+            <ul style="list-style-type: none; padding-left: 0;">
+              <li style="display: flex; align-items: center; margin-bottom: 20px;">
+                <i class="bi bi-box" style="font-size: 1.5rem; color: #f39c12; margin-right: 15px;"></i>
+                <div>
+                  <h5 style="font-size: 1.25rem; font-weight: 600; color: #333;">Wide Range of Products</h5>
+                  <p style="font-size: 1rem; color: #777;">From the latest electronics to stylish apparel, we have it all, sourced from trusted brands.</p>
+                </div>
+              </li>
+              <li style="display: flex; align-items: center; margin-bottom: 20px;">
+                <i class="bi bi-truck" style="font-size: 1.5rem; color: #f39c12; margin-right: 15px;"></i>
+                <div>
+                  <h5 style="font-size: 1.25rem; font-weight: 600; color: #333;">Fast & Reliable Shipping</h5>
+                  <p style="font-size: 1rem; color: #777;">Get your orders delivered right to your doorstep with our fast and reliable shipping service.</p>
+                </div>
+              </li>
+              <li style="display: flex; align-items: center; margin-bottom: 20px;">
+                <i class="bi bi-shield-lock" style="font-size: 1.5rem; color: #f39c12; margin-right: 15px;"></i>
+                <div>
+                  <h5 style="font-size: 1.25rem; font-weight: 600; color: #333;">Secure Shopping Experience</h5>
+                  <p style="font-size: 1rem; color: #777;">Your privacy and security are our top priority. Shop with confidence using our secure checkout system.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+    
+        </div>
+    
+      </div>
+    
+    </section><!-- /About Section -->
+    
+
+
+
+    <section class="stats py-5 bg-success text-white">
+      <div class="container">
+        <div class="row text-center gy-4">
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 bg-white text-dark rounded shadow">
+              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="2"
+                class="purecounter fs-2 fw-bold d-block"></span>
+              <p class="mb-0">Clients</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 bg-white text-dark rounded shadow">
+              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="2"
+                class="purecounter fs-2 fw-bold d-block"></span>
+              <p class="mb-0">Projects</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 bg-white text-dark rounded shadow">
+              <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="2"
+                class="purecounter fs-2 fw-bold d-block"></span>
+              <p class="mb-0">Hours of Support</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 bg-white text-dark rounded shadow">
+              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="2"
+                class="purecounter fs-2 fw-bold d-block"></span>
+              <p class="mb-0">Workers</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PureCounter Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+    <script>
+      new PureCounter();
+    </script>
+
+    <!-- card view -->
+    
+    <div class="container mt-5">
+      <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <!-- Product Image -->
+            <img src="{{ product.img.url }}" class="card-img-top fixed-image" alt="Product Image">
+    
+            <!-- Card Body -->
+            <div class="card-body">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text"><strong>Category:</strong> {{ product.category.category_name }}</p>
+              <p class="card-text"><strong>Price:</strong> Rs.{{ product.price }}</p>
+            </div>
+    
+            <!-- Buttons in separate divs -->
+            <div class="card-buttons p-3">
+              <div class="mb-2">
+                <a href="{% url 'product_desc' product.id %}" class="btn btn-primary w-100">View More</a>
+              </div>
+              <div>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success w-100">Add to Cart</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    
+
+    <footer id="footer" class="footer light-background" style="background-color: #f9f9f9; padding: 40px 0; color: #555;">
+      <div class="container footer-top">
+    
+        <div class="row gy-4">
+          <!-- About Section -->
+          <div class="col-lg-4 col-md-6 footer-about">
+            <a href="{% url 'index' %}" class="logo d-flex align-items-center">
+              <span class="sitename" style="font-size: 2rem; font-weight: 700; color: #28a745;">PrimeDealsStore</span>
+            </a>
+            <p style="font-size: 1rem; color: #555;">
+              Your one-stop destination for the best deals online. We bring you top-quality products at unbeatable prices, with hassle-free delivery and exceptional customer service.
+            </p>
+            <div class="social-links d-flex mt-4">
+              <a href="#" style="margin-right: 15px;" aria-label="Twitter"><i class="bi bi-twitter" style="font-size: 1.5rem; color: #1da1f2;"></i></a>
+              <a href="#" style="margin-right: 15px;" aria-label="Facebook"><i class="bi bi-facebook" style="font-size: 1.5rem; color: #3b5998;"></i></a>
+              <a href="#" style="margin-right: 15px;" aria-label="Instagram"><i class="bi bi-instagram" style="font-size: 1.5rem; color: #e4405f;"></i></a>
+              <a href="#" style="margin-right: 15px;" aria-label="LinkedIn"><i class="bi bi-linkedin" style="font-size: 1.5rem; color: #0077b5;"></i></a>
+            </div>
+          </div>
+    
+          <!-- Useful Links Section -->
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4 style="font-size: 1.25rem; font-weight: 600; color: #333;">Quick Links</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+              <li><a href="#" style="color: #555;">Home</a></li>
+              <li><a href="#" style="color: #555;">Shop Now</a></li>
+              <li><a href="#" style="color: #555;">About Us</a></li>
+              <li><a href="#" style="color: #555;">Track Order</a></li>
+              <li><a href="#" style="color: #555;">Contact Us</a></li>
+            </ul>
+          </div>
+    
+          <!-- Customer Service Section -->
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4 style="font-size: 1.25rem; font-weight: 600; color: #333;">Customer Service</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+              <li><a href="#" style="color: #555;">Returns & Exchanges</a></li>
+              <li><a href="#" style="color: #555;">Shipping & Delivery</a></li>
+              <li><a href="#" style="color: #555;">FAQ</a></li>
+              <li><a href="#" style="color: #555;">Privacy Policy</a></li>
+              <li><a href="#" style="color: #555;">Terms of Service</a></li>
+            </ul>
+          </div>
+    
+          <!-- Contact Information Section -->
+          <div class="col-lg-3 col-md-6 footer-contact text-center text-md-start">
+            <h4 style="font-size: 1.25rem; font-weight: 600; color: #333;">Contact Us</h4>
+            <p style="font-size: 1rem; color: #555;">Jalandhar Cantt.</p>
+            <p style="font-size: 1rem; color: #555;">Jalandhar, Punjab 144023</p>
+            <p style="font-size: 1rem; color: #555;">India</p>
+            <p class="mt-4">
+              <strong style="color: #28a745;">Phone:</strong> <span style="color: #555;">+91 123-456-789</span>
+            </p>
+            <p><strong style="color: #28a745;">Email:</strong> <span style="color: #555;">support@primedealsstore.com</span></p>
+          </div>
+    
+        </div>
+    
+      </div>
+    
+      <!-- Footer Bottom Section -->
+      <div class="container copyright text-center mt-4" style="border-top: 1px solid #ddd; padding-top: 20px;">
+        <p style="font-size: 1rem; color: #555;">
+          © <span style="color: #28a745;">Copyright</span>
+          <strong class="px-1 sitename" style="color: #28a745;">PrimeDealsStore</strong>
+          <span style="color: #555;">All Rights Reserved</span>
+        </p>
+        
+      </div>
+    </footer>
+    
+    
+
+
+    <!-- Include Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/purecounter/purecounter.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'vendor/waypoints/noframework.waypoints.js' %}"></script>
+
+    <!-- Main JS File -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

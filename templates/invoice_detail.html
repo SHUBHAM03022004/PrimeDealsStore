@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #{{ order.id }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        .invoice-box {
+            max-width: 900px;
+            margin: auto;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .address {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .address p {
+            margin: 5px 0;
+        }
+
+        .address strong {
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 16px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        td {
+            color: #555;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #e74c3c;
+        }
+
+        .print-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .print-btn button {
+            padding: 12px 30px;
+            font-size: 18px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .print-btn button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .invoice-box {
+                padding: 20px;
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <h2>Invoice #{{ order.id }}</h2>
+
+        <div class="address">
+            <h2>Shipping Address</h2>
+            <p><strong>Name:</strong> {{ order.user.username }}</p>
+            
+          </div>
+        
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>Rs.{{ item.product.price }}</td> <!-- Corrected to use product price -->
+                    <td>{{ item.quantity }}</td>
+                    <td>Rs.{{ item.get_total_item_price }}</td> <!-- Corrected to use get_total_item_price method -->
+                    
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        
+
+        <div class="total">
+            <strong>Total: Rs.{{ order.get_total_price }}</strong>
+        </div>
+
+        <div class="print-btn">
+            <button onclick="window.print()">Print Invoice</button>
+        </div>
+    </div>
+</body>
+</html>
